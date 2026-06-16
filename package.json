@@ -1,0 +1,31 @@
+{
+  "name": "bloody-wedding",
+  "version": "1.0.0",
+  "description": "App de fotos en Drive",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gutifer666/bloody-wedding.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gutifer666/bloody-wedding/issues"
+  },
+  "homepage": "https://github.com/gutifer666/bloody-wedding#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
+  }
+}
