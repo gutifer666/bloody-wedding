@@ -13,7 +13,7 @@ npm run preview # preview production build
 - TypeScript 6.0.3, Hexagonal Architecture / DDD.
 - Frontend: `src/`.
 - Layers: Domain → Application (one use case per class) → Infrastructure.
-- Vte as build tool and dev server.
+- Vite as build tool and dev server.
 
 # DB
 - Google Apps Script + Google Drive.
