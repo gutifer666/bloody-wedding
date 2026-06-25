@@ -15,44 +15,53 @@ let selectedFile: File | null = null;
 let qrCodeInstance: any = null;
 
 // DOM Elements
-const elements = {
-    guestView: document.getElementById('guest-view')!,
-    adminView: document.getElementById('admin-view')!,
-    photoInput: document.getElementById('photo-input') as HTMLInputElement,
-    uploadTriggerBtn: document.getElementById('upload-trigger-btn')!,
-    previewCard: document.getElementById('preview-card')!,
-    imagePreview: document.getElementById('image-preview') as HTMLImageElement,
-    cancelBtn: document.getElementById('cancel-btn')!,
-    sendBtn: document.getElementById('send-btn')!,
-    passwordModal: document.getElementById('password-modal')!,
-    adminPasswordInput: document.getElementById('admin-password-input') as HTMLInputElement,
-    passwordError: document.getElementById('password-error')!,
-    passwordCancelBtn: document.getElementById('password-cancel-btn')!,
-    passwordSubmitBtn: document.getElementById('password-submit-btn')!,
-    closePasswordModal: document.getElementById('close-password-modal')!,
-    loaderOverlay: document.getElementById('loader-overlay')!,
-    loaderTitle: document.getElementById('loader-title')!,
-    loaderSubtitle: document.getElementById('loader-subtitle')!,
-    uploadProgress: document.getElementById('upload-progress')!,
-    notificationOverlay: document.getElementById('notification-overlay')!,
-    notificationTitle: document.getElementById('notification-title')!,
-    notificationMessage: document.getElementById('notification-message')!,
-    notificationCloseBtn: document.getElementById('notification-close-btn')!,
-    adminLoginTrigger: document.getElementById('admin-login-trigger')!,
-    adminBackBtn: document.getElementById('admin-back-btn')!,
-    qrSizeSelect: document.getElementById('qr-size-select') as HTMLSelectElement,
-    printBtn: document.getElementById('print-btn')!,
-    printUrlText: document.getElementById('print-url-text')!,
-    qrcodeContainer: document.getElementById('qrcode')!,
-};
+let elements: any = {};
+
+function updateElements() {
+    elements = {
+        guestView: document.getElementById('guest-view')!,
+        adminView: document.getElementById('admin-view')!,
+        photoInput: document.getElementById('photo-input') as HTMLInputElement,
+        uploadTriggerBtn: document.getElementById('upload-trigger-btn')!,
+        previewCard: document.getElementById('preview-card')!,
+        imagePreview: document.getElementById('image-preview') as HTMLImageElement,
+        cancelBtn: document.getElementById('cancel-btn')!,
+        sendBtn: document.getElementById('send-btn')!,
+        passwordModal: document.getElementById('password-modal')!,
+        adminPasswordInput: document.getElementById('admin-password-input') as HTMLInputElement,
+        passwordError: document.getElementById('password-error')!,
+        passwordCancelBtn: document.getElementById('password-cancel-btn')!,
+        passwordSubmitBtn: document.getElementById('password-submit-btn')!,
+        closePasswordModal: document.getElementById('close-password-modal')!,
+        loaderOverlay: document.getElementById('loader-overlay')!,
+        loaderTitle: document.getElementById('loader-title')!,
+        loaderSubtitle: document.getElementById('loader-subtitle')!,
+        uploadProgress: document.getElementById('upload-progress')!,
+        notificationOverlay: document.getElementById('notification-overlay')!,
+        notificationTitle: document.getElementById('notification-title')!,
+        notificationMessage: document.getElementById('notification-message')!,
+        notificationCloseBtn: document.getElementById('notification-close-btn')!,
+        adminLoginTrigger: document.getElementById('admin-login-trigger')!,
+        adminBackBtn: document.getElementById('admin-back-btn')!,
+        qrSizeSelect: document.getElementById('qr-size-select') as HTMLSelectElement,
+        printBtn: document.getElementById('print-btn')!,
+        printUrlText: document.getElementById('print-url-text')!,
+        qrcodeContainer: document.getElementById('qrcode')!,
+        selectionModal: document.getElementById('selection-modal')!,
+        closeSelectionModal: document.getElementById('close-selection-modal')!,
+        optionCamera: document.getElementById('option-camera')!,
+        optionGallery: document.getElementById('option-gallery')!,
+    };
+}
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+    updateElements();
     initEventListeners();
 });
 
 function initEventListeners() {
-    elements.uploadTriggerBtn.addEventListener('click', () => elements.photoInput.click());
+    elements.uploadTriggerBtn.addEventListener('click', handleUploadTrigger);
     elements.photoInput.addEventListener('change', handlePhotoSelection);
     elements.cancelBtn.addEventListener('click', resetGuestUploadView);
     elements.sendBtn.addEventListener('click', handleUpload);
@@ -68,12 +77,12 @@ function initEventListeners() {
     elements.closePasswordModal.addEventListener('click', closePasswordModal);
     elements.passwordCancelBtn.addEventListener('click', closePasswordModal);
     elements.passwordSubmitBtn.addEventListener('click', handlePasswordSubmit);
-    elements.adminPasswordInput.addEventListener('keypress', (e) => {
+    elements.adminPasswordInput.addEventListener('keypress', (e: KeyboardEvent) => {
         if (e.key === 'Enter') handlePasswordSubmit();
     });
 
     elements.adminBackBtn.addEventListener('click', () => switchView('guest'));
-    elements.qrSizeSelect.addEventListener('change', (e) => {
+    elements.qrSizeSelect.addEventListener('change', (e: Event) => {
         const size = parseInt((e.target as HTMLSelectElement).value, 10);
         generateQRCode(size);
     });
@@ -83,7 +92,37 @@ function initEventListeners() {
         hideModal(elements.notificationOverlay);
         resetGuestUploadView();
     });
+
+    elements.closeSelectionModal.addEventListener('click', () => hideModal(elements.selectionModal));
+    elements.optionCamera.addEventListener('click', () => {
+        hideModal(elements.selectionModal);
+        elements.photoInput.setAttribute('capture', 'environment');
+        elements.photoInput.click();
+    });
+    elements.optionGallery.addEventListener('click', () => {
+        hideModal(elements.selectionModal);
+        elements.photoInput.removeAttribute('capture');
+        elements.photoInput.click();
+    });
 }
+
+export function handleUploadTrigger() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        showModal(elements.selectionModal);
+    } else {
+        elements.photoInput.removeAttribute('capture');
+        elements.photoInput.click();
+    }
+}
+
+export const testing = {
+    getElements: () => elements,
+    updateElements,
+    initEventListeners,
+    showModal,
+    hideModal
+};
 
 // --- View Switching ---
 function switchView(viewName: 'admin' | 'guest') {

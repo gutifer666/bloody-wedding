@@ -664,6 +664,18 @@ body {
     margin-top: 10px;
 }
 
+/* Selection Modal Specific Styles */
+.selection-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.selection-btn {
+    padding: 20px !important;
+    font-size: 1.1rem !important;
+}
+
 /* SPA Navigation Display Controls */
 .view-section {
     display: none;

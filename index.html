@@ -40,7 +40,7 @@
                         <p class="upload-instructions">Captura un instante mágico de este gran día o selecciona una foto de tu galería.</p>
                         
                         <!-- Invisible native file input -->
-                        <input type="file" id="photo-input" accept="image/*" capture="environment">
+                        <input type="file" id="photo-input" accept="image/*">
                         
                         <!-- Premium trigger button -->
                         <button id="upload-trigger-btn" class="btn btn-primary btn-lg">
@@ -179,6 +179,26 @@
             <h2 class="thank-you-title" id="notification-title">¡Muchas Gracias!</h2>
             <p class="thank-you-message" id="notification-message">Tu foto se ha subido correctamente al álbum de la boda.</p>
             <button id="notification-close-btn" class="btn btn-primary">Subir otra foto</button>
+        </div>
+    </div>
+
+    <!-- ================= SELECTION MODAL (MOBILE) ================= -->
+    <div id="selection-modal" class="modal-overlay hidden">
+        <div class="modal-card glass">
+            <div class="modal-header">
+                <h3>¿Qué quieres hacer?</h3>
+                <button class="modal-close" id="close-selection-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="selection-options">
+                    <button id="option-camera" class="btn btn-primary btn-lg selection-btn">
+                        <i class="fa-solid fa-camera"></i> Tomar Foto
+                    </button>
+                    <button id="option-gallery" class="btn btn-outline btn-lg selection-btn">
+                        <i class="fa-solid fa-images"></i> Abrir Galería
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -45,5 +45,6 @@ docs/
 ├── frontend/ 
 │   └── hexagonal-architecture.md
 └── testing/
-    └── mock-objects.md
+    ├── mock-objects.md
+    └── mandatory-unit-testing.md
 ```
