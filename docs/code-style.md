@@ -40,6 +40,8 @@ async searchAll() {
 ## 🧐 Real world examples
 
 - TypeScript config: `tsconfig.json`
+- Domain interfaces: `src/domain/Photo.ts`
+- Infrastructure implementation: `src/infrastructure/GoogleDriveStorageAdapter.ts`
 
 ## 🔗 Related agreements
 

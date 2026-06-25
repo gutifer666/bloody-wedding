@@ -67,6 +67,10 @@ export class AllCookedDishesSearcher {
 
 ## 🧐 Real world examples
 
+- Domain: `src/domain/Photo.ts`
+- Application: `src/application/upload-photo/PhotoUploader.ts`
+- Infrastructure: `src/infrastructure/GoogleDriveStorageAdapter.ts`
+
 
 ## 🔗 Related agreements
 

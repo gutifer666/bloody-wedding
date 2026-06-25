@@ -1,7 +1,7 @@
 import type { Photo, UploadResult } from '../domain/Photo';
-import type { PhotoStoragePort } from '../domain/PhotoStoragePort';
+import type { PhotoRepository } from '../domain/PhotoRepository.ts';
 
-export class GoogleDriveStorageAdapter implements PhotoStoragePort {
+export class GoogleDriveStorageAdapter implements PhotoRepository {
   private readonly apiUrl: string;
 
   constructor(apiUrl: string) {

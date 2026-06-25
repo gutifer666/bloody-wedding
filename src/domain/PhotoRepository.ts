@@ -1,5 +1,5 @@
 import type { Photo, UploadResult } from './Photo';
 
-export interface PhotoStoragePort {
+export interface PhotoRepository {
   uploadPhoto(photo: Photo): Promise<UploadResult>;
 }

@@ -1,10 +1,10 @@
-import type { PhotoStoragePort } from '../domain/PhotoStoragePort';
+import type { PhotoRepository } from '../domain/PhotoRepository.ts';
 import type { Photo, UploadResult } from '../domain/Photo';
 
 export class PhotoUploadService {
-  private readonly storage: PhotoStoragePort;
+  private readonly storage: PhotoRepository;
 
-  constructor(storage: PhotoStoragePort) {
+  constructor(storage: PhotoRepository) {
     this.storage = storage;
   }
 

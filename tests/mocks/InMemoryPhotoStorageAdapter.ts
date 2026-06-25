@@ -1,7 +1,7 @@
-import type { PhotoStoragePort } from '../../src/domain/PhotoStoragePort';
+import type { PhotoRepository } from '../../src/domain/PhotoRepository.ts';
 import type { Photo, UploadResult } from '../../src/domain/Photo';
 
-export class InMemoryPhotoStorageAdapter implements PhotoStoragePort {
+export class InMemoryPhotoStorageAdapter implements PhotoRepository {
   public photos: Photo[] = [];
   public shouldFail = false;
 
