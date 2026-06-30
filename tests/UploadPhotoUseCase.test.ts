@@ -1,13 +1,13 @@
-import { PhotoUploadService } from '../src/application/PhotoUploadService';
+import { UploadPhotoUseCase } from '../src/application/upload-photo/UploadPhotoUseCase';
 import { InMemoryPhotoStorageAdapter } from './mocks/InMemoryPhotoStorageAdapter';
 
-describe('PhotoUploadService', () => {
-  let service: PhotoUploadService;
+describe('UploadPhotoUseCase', () => {
+  let useCase: UploadPhotoUseCase;
   let mockStorage: InMemoryPhotoStorageAdapter;
 
   beforeEach(() => {
     mockStorage = new InMemoryPhotoStorageAdapter();
-    service = new PhotoUploadService(mockStorage);
+    useCase = new UploadPhotoUseCase(mockStorage);
 
     // Mock global components needed for processFile
     global.FileReader = class {
@@ -46,9 +46,9 @@ describe('PhotoUploadService', () => {
     });
   });
 
-  it('debe procesar y subir una foto correctamente', async () => {
+  it('should process and upload a photo correctly', async () => {
     const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
-    const result = await service.upload(file);
+    const result = await useCase.execute(file);
 
     expect(result.status).toBe('success');
     expect(mockStorage.photos.length).toBe(1);
@@ -56,10 +56,10 @@ describe('PhotoUploadService', () => {
     expect(mockStorage.photos[0]!.base64).toBe('Q09NUFJFU1NFRF9CQVNFNjQ=');
   });
 
-  it('debe manejar errores de subida', async () => {
+  it('should handle upload errors', async () => {
     mockStorage.shouldFail = true;
     const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
-    const result = await service.upload(file);
+    const result = await useCase.execute(file);
 
     expect(result.status).toBe('error');
     expect(result.message).toBe('Falla simulada');

@@ -1,12 +1,12 @@
 import { GoogleDriveStorageAdapter } from './infrastructure/GoogleDriveStorageAdapter';
-import { PhotoUploadService } from './application/PhotoUploadService';
+import { UploadPhotoUseCase } from './application/upload-photo/UploadPhotoUseCase';
 
 // --- Configuration ---
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7AinWlHsVdeDcTEIJrkVK-N38Xil10_z6_h0QVUKSQUKTrVjuHub14ZXS3AY0Lddc/exec";
 
 // --- Dependency Injection ---
 const storageAdapter = new GoogleDriveStorageAdapter(APPS_SCRIPT_URL);
-const uploadService = new PhotoUploadService(storageAdapter);
+const uploadUseCase = new UploadPhotoUseCase(storageAdapter);
 
 // --- UI Logic ---
 
@@ -211,7 +211,7 @@ async function handleUpload() {
     showStatusOverlay('Procesando imagen...', 'Redimensionando y optimizando para carga móvil...');
     animateProgressBar(0, 30, 800);
 
-    const result = await uploadService.upload(selectedFile);
+    const result = await uploadUseCase.execute(selectedFile);
     
     if (result.status === 'success') {
         animateProgressBar(30, 100, 1000);

@@ -1,21 +1,17 @@
-import type { PhotoRepository } from '../domain/PhotoRepository.ts';
-import type { Photo, UploadResult } from '../domain/Photo';
+import type { PhotoRepository } from '../../domain/PhotoRepository.ts';
+import type { Photo, UploadResult } from '../../domain/Photo';
 
-export class PhotoUploadService {
-  private readonly storage: PhotoRepository;
+export class UploadPhotoUseCase {
+  constructor(private readonly storage: PhotoRepository) {}
 
-  constructor(storage: PhotoRepository) {
-    this.storage = storage;
-  }
-
-  async upload(file: File): Promise<UploadResult> {
+  async execute(file: File): Promise<UploadResult> {
     try {
       const photo = await this.processFile(file);
       return await this.storage.uploadPhoto(photo);
     } catch (error) {
       return {
         status: 'error',
-        message: error instanceof Error ? error.message : 'Error desconocido al procesar la foto'
+        message: error instanceof Error ? error.message : 'Unknown error processing the photo'
       };
     }
   }
@@ -31,7 +27,7 @@ export class PhotoUploadService {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           if (!ctx) {
-            reject(new Error('No se pudo obtener el contexto del canvas'));
+            reject(new Error('Could not get canvas context'));
             return;
           }
 
@@ -62,7 +58,7 @@ export class PhotoUploadService {
             .replace(/[^a-zA-Z0-9]/g, '_')
             .toLowerCase();
           
-          const filename = `boda_${timestamp}_${cleanName || 'foto'}.jpg`;
+          const filename = `boda_${timestamp}_${cleanName || 'photo'}.jpg`;
 
           resolve({
             filename,
@@ -71,9 +67,9 @@ export class PhotoUploadService {
           });
         };
 
-        img.onerror = () => reject(new Error('Error al cargar la imagen'));
+        img.onerror = () => reject(new Error('Error loading image'));
       };
-      reader.onerror = () => reject(new Error('Error al leer el archivo'));
+      reader.onerror = () => reject(new Error('Error reading file'));
       reader.readAsDataURL(file);
     });
   }
