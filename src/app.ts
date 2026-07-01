@@ -51,6 +51,7 @@ function updateElements() {
         closeSelectionModal: document.getElementById('close-selection-modal')!,
         optionCamera: document.getElementById('option-camera')!,
         optionGallery: document.getElementById('option-gallery')!,
+        shareLinkBtn: document.getElementById('share-link-btn')!,
     };
 }
 
@@ -88,6 +89,7 @@ function initEventListeners() {
     });
 
     elements.printBtn.addEventListener('click', () => window.print());
+    elements.shareLinkBtn.addEventListener('click', handleShareLink);
     elements.notificationCloseBtn.addEventListener('click', () => {
         hideModal(elements.notificationOverlay);
         resetGuestUploadView();
@@ -104,6 +106,33 @@ function initEventListeners() {
         elements.photoInput.removeAttribute('capture');
         elements.photoInput.click();
     });
+}
+
+async function handleShareLink() {
+    const shareData = {
+        title: 'Nuestra Boda',
+        text: '¡Sube tus fotos a nuestra boda!',
+        url: window.location.href
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+        } catch (err) {
+            // Ignore AbortError (user cancelled)
+            if ((err as Error).name !== 'AbortError') {
+                console.error('Error sharing:', err);
+            }
+        }
+    } else {
+        try {
+            await navigator.clipboard.writeText(shareData.url);
+            showNotification('Enlace copiado', 'El enlace se ha copiado al portapapeles.');
+        } catch (err) {
+            console.error('Error copying to clipboard:', err);
+            alert('No se pudo copiar el enlace.');
+        }
+    }
 }
 
 export function handleUploadTrigger() {

@@ -40,6 +40,7 @@ describe('Mobile Selection Logic', () => {
             <button id="close-selection-modal"></button>
             <button id="option-camera"></button>
             <button id="option-gallery"></button>
+            <button id="share-link-btn"></button>
         `;
 
         // Mock navigator.userAgent
